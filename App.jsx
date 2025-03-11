@@ -1,34 +1,48 @@
-import React, { useEffect } from 'react';
-import { View, Image, Animated } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Animated } from 'react-native';
 import { enableScreens } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import LogScreen from './src/screens/LogScreen';
+import ExplainScreen from './src/screens/ExplainScreen';
+import SeasonalScreen from './src/screens/SeasonalScreen';
 
 enableScreens();
 
 const Stack = createStackNavigator();
 
 const LoadingScreen = ({ navigation }) => {
-      const progress = new Animated.Value(0);
-  
-      useEffect(() => {
-          Animated.timing(progress, {
-              toValue: 100,
-              duration: 5000,
-              useNativeDriver: false,
-          }).start(() => {
-              navigation.replace('LogScreen');
-          });
-      }, []);
-  
-      return (
-          <View style={{width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: '#000'}}>
-              <Image source={require('./src/assets/logo.png')} style={{ width: 344, height: 344, resizeMode: 'contain'}} />
-          </View>
-      );
-  };
+    const logoOpacity = useRef(new Animated.Value(1)).current;
+    const nameOpacity = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        setTimeout(() => {
+            Animated.timing(nameOpacity, {
+                toValue: 1,
+                duration: 2000,
+                useNativeDriver: true,
+            }).start();
+        }, 2000);
+
+        setTimeout(() => {
+            navigation.replace('ExplainScreen');
+        }, 5000);
+    }, []);
+
+    return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#000' }}>
+            <Animated.Image 
+                source={require('./src/assets/logo.png')} 
+                style={{ width: 344, height: 344, resizeMode: 'contain', opacity: logoOpacity }} 
+            />
+
+            <Animated.Image 
+                source={require('./src/assets/name.png')} 
+                style={{ width: 200, height: 50, resizeMode: 'contain', opacity: nameOpacity, marginTop: 20 }} 
+            />
+        </View>
+    );
+};
 
 const App = () => {
 
@@ -41,8 +55,13 @@ const App = () => {
                       options={{ headerShown: false }} 
                 />
                 <Stack.Screen 
-                      name="LogScreen" 
-                      component={LogScreen} 
+                      name="ExplainScreen" 
+                      component={ExplainScreen} 
+                      options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                      name="SeasonalScreen" 
+                      component={SeasonalScreen} 
                       options={{ headerShown: false }} 
                 />
             </Stack.Navigator>
