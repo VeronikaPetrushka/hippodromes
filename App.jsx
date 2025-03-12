@@ -6,6 +6,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import ExplainScreen from './src/screens/ExplainScreen';
 import SeasonalScreen from './src/screens/SeasonalScreen';
+import AllScreen from './src/screens/AllScreen';
+import FactsScreen from './src/screens/FactsScreen';
+import MapScreen from './src/screens/MapScreen';
+import SavedScreen from './src/screens/SavedScreen';
+import BlogScreen from './src/screens/BlogScreen';
+import SurpriseScreen from './src/screens/SurpriseScreen';
 
 enableScreens();
 
@@ -62,6 +68,36 @@ const App = () => {
                 <Stack.Screen 
                       name="SeasonalScreen" 
                       component={SeasonalScreen} 
+                      options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                      name="AllScreen" 
+                      component={AllScreen} 
+                      options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                      name="MapScreen" 
+                      component={MapScreen} 
+                      options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                      name="SavedScreen" 
+                      component={SavedScreen} 
+                      options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                      name="FactsScreen" 
+                      component={FactsScreen} 
+                      options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                      name="BlogScreen" 
+                      component={BlogScreen} 
+                      options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                      name="SurpriseScreen" 
+                      component={SurpriseScreen} 
                       options={{ headerShown: false }} 
                 />
             </Stack.Navigator>

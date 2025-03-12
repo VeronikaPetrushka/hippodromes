@@ -26,6 +26,9 @@ const Icons = ({ type, saved }) => {
     case 'menu':
       imageSource = require('../assets/icons/menu.png');
       break;
+    case 'close':
+      imageSource = require('../assets/icons/close.png');
+      break;
   }
 
   return (
