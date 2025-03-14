@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Share, ScrollView, Animated } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Share, ScrollView, Animated, ImageBackground } from "react-native"
 import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -112,120 +112,122 @@ const Saved = () => {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <View style={styles.container}>
+            <ImageBackground source={require('../assets/back.png')} style={{flex: 1}}>
+                <View style={styles.container}>
 
-                {isMenuOpen && (
-                    <Animated.View style={[styles.menuContainer, animatedMenuStyle]}>
-                        <BurgerMenu onClose={toggleMenu} />
-                    </Animated.View>
-                )}
+                    {isMenuOpen && (
+                        <Animated.View style={[styles.menuContainer, animatedMenuStyle]}>
+                            <BurgerMenu onClose={toggleMenu} />
+                        </Animated.View>
+                    )}
 
-                <View style={styles.row}>
-                    <TouchableOpacity style={styles.upperBtn} onPress={toggleMenu}>
-                        <Icons type={'menu'} />
-                    </TouchableOpacity>
-                    <Image source={require('../assets/logo.png')} style={styles.logo} />
-                    <TouchableOpacity style={styles.upperBtn} onPress={() => navigation.navigate('SurpriseScreen')}>
-                        <Icons type={'surprise'} />
-                    </TouchableOpacity>
-                </View>
+                    <View style={styles.row}>
+                        <TouchableOpacity style={styles.upperBtn} onPress={toggleMenu}>
+                            <Icons type={'menu'} />
+                        </TouchableOpacity>
+                        <Image source={require('../assets/logo.png')} style={styles.logo} />
+                        <TouchableOpacity style={styles.upperBtn} onPress={() => navigation.navigate('SurpriseScreen')}>
+                            <Icons type={'surprise'} />
+                        </TouchableOpacity>
+                    </View>
 
-                <View style={{width: '100%', paddingHorizontal: 34}}>
-                    <ScrollView style={{width: '100%'}}>
-                        <Text style={styles.title}>Saved Facts:</Text>
-                        {
-                            savedFacts.length > 0 ? (
-                                <>
-                                    {
-                                        savedFacts.map((fact, index) => (
-                                            <View key={index} style={styles.factContainer}>
-                                                <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', marginBottom: 14}}>
-                                                    <View style={{width: 20, height: 20, marginRight: 15}}>
-                                                        <Icons type={'tick'} />
+                    <View style={{width: '100%', paddingHorizontal: 34}}>
+                        <ScrollView style={{width: '100%'}}>
+                            <Text style={styles.title}>Saved Facts:</Text>
+                            {
+                                savedFacts.length > 0 ? (
+                                    <>
+                                        {
+                                            savedFacts.map((fact, index) => (
+                                                <View key={index} style={styles.factContainer}>
+                                                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', marginBottom: 14}}>
+                                                        <View style={{width: 20, height: 20, marginRight: 15}}>
+                                                            <Icons type={'tick'} />
+                                                        </View>
+                                                        <Text style={[styles.title, {marginBottom: 0}]}>Ascot Racecourse</Text>
                                                     </View>
-                                                    <Text style={[styles.title, {marginBottom: 0}]}>Ascot Racecourse</Text>
-                                                </View>
-                                                <Text style={styles.fact}>{fact}</Text>
-                                                <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                                                    <TouchableOpacity style={[styles.factBtn, savedFacts.includes(fact) && {backgroundColor: '#313131'}]} onPress={() => handleSave(fact)}>
-                                                        <View style={{width: 20, height: 20}}>
-                                                            <Icons type={'save'} saved={savedFacts.includes(fact)} />
-                                                        </View>
-                                                    </TouchableOpacity>
-                                                    <TouchableOpacity style={styles.factBtn} onPress={() => handleShare(fact)}>
-                                                        <View style={{width: 20, height: 20}}>
-                                                            <Icons type={'share'} />
-                                                        </View>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            </View>    
-                                        ))
-                                    }
-                                </>
-                            ) : (
-                                <Text style={[styles.fact, {textAlign: 'center'}]}>You haven't saved anything yet</Text>
-                            )
-                        }
-                        <Text style={[styles.title, {marginTop: 30}]}>Saved Hippodromes:</Text>
-                        {
-                            savedItems.length > 0 ? (
-                                <>
-                                    {
-                                        savedItems.map((item, index) => (
-                                                <View key={index} style={styles.card}>
-                                                    <Image source={item.image} style={styles.cardImg} />
-                                                    <View style={{width: '100%', padding: 21, backgroundColor: '#171717'}}>
-                                                        <Text style={styles.cardName}>{item.name}</Text>
-                                                        <Text style={styles.fact}>{item.description}</Text>
-                                                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                                                            <TouchableOpacity style={[styles.factBtn, {width: 180, padding: 8}]} onPress={() => toggleMap(item)}>
-                                                                <Text style={styles.cardBtnText}>{mapVisible && item === selectedMap ? 'Close' : 'Open'}</Text>
-                                                            </TouchableOpacity>
-                                                            <TouchableOpacity 
-                                                                style={[styles.cardBtn, savedItems.includes(item) && {backgroundColor: '#313131'}]} 
-                                                                onPress={() => handleSaveResult(item)}
-                                                                >
-                                                                <Icons type={'save'} saved={savedItems.includes(item)} />
-                                                            </TouchableOpacity>
-                                                            <TouchableOpacity style={styles.cardBtn} onPress={() => handleShareItem(item)}>
+                                                    <Text style={styles.fact}>{fact}</Text>
+                                                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                                                        <TouchableOpacity style={[styles.factBtn, savedFacts.includes(fact) && {backgroundColor: '#313131'}]} onPress={() => handleSave(fact)}>
+                                                            <View style={{width: 20, height: 20}}>
+                                                                <Icons type={'save'} saved={savedFacts.includes(fact)} />
+                                                            </View>
+                                                        </TouchableOpacity>
+                                                        <TouchableOpacity style={styles.factBtn} onPress={() => handleShare(fact)}>
+                                                            <View style={{width: 20, height: 20}}>
                                                                 <Icons type={'share'} />
-                                                            </TouchableOpacity>
-                                                        </View>
-                                                </View>
-                                                    {
-                                                        mapVisible && item === selectedMap && (
-                                                            <MapView
-                                                                style={{ width: '100%', height: 188, borderTopColor: '#dabc67', borderTopWidth: 1 }}
-                                                                initialRegion={{
-                                                                    latitude: item.coordinates.lat,
-                                                                    longitude: item.coordinates.lon,
-                                                                    latitudeDelta: 0.5,
-                                                                    longitudeDelta: 0.5,
-                                                                }}
-                                                            >
-                                                                <Marker
-                                                                    coordinate={{
+                                                            </View>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                </View>    
+                                            ))
+                                        }
+                                    </>
+                                ) : (
+                                    <Text style={[styles.fact, {textAlign: 'center'}]}>You haven't saved anything yet</Text>
+                                )
+                            }
+                            <Text style={[styles.title, {marginTop: 30}]}>Saved Hippodromes:</Text>
+                            {
+                                savedItems.length > 0 ? (
+                                    <>
+                                        {
+                                            savedItems.map((item, index) => (
+                                                    <View key={index} style={styles.card}>
+                                                        <Image source={item.image} style={styles.cardImg} />
+                                                        <View style={{width: '100%', padding: 21, backgroundColor: '#171717'}}>
+                                                            <Text style={styles.cardName}>{item.name}</Text>
+                                                            <Text style={styles.fact}>{item.description}</Text>
+                                                            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                                                                <TouchableOpacity style={[styles.factBtn, {width: 180, padding: 8}]} onPress={() => toggleMap(item)}>
+                                                                    <Text style={styles.cardBtnText}>{mapVisible && item === selectedMap ? 'Close' : 'Open'}</Text>
+                                                                </TouchableOpacity>
+                                                                <TouchableOpacity 
+                                                                    style={[styles.cardBtn, savedItems.includes(item) && {backgroundColor: '#313131'}]} 
+                                                                    onPress={() => handleSaveResult(item)}
+                                                                    >
+                                                                    <Icons type={'save'} saved={savedItems.includes(item)} />
+                                                                </TouchableOpacity>
+                                                                <TouchableOpacity style={styles.cardBtn} onPress={() => handleShareItem(item)}>
+                                                                    <Icons type={'share'} />
+                                                                </TouchableOpacity>
+                                                            </View>
+                                                    </View>
+                                                        {
+                                                            mapVisible && item === selectedMap && (
+                                                                <MapView
+                                                                    style={{ width: '100%', height: 188, borderTopColor: '#dabc67', borderTopWidth: 1 }}
+                                                                    initialRegion={{
                                                                         latitude: item.coordinates.lat,
                                                                         longitude: item.coordinates.lon,
+                                                                        latitudeDelta: 0.5,
+                                                                        longitudeDelta: 0.5,
                                                                     }}
-                                                                    title={item.name}
-                                                                />
-                                                            </MapView>
-                                                        )
-                                                    }
-                                            </View>        
-                                        ))
-                                    }
-                                </>
-                            ) : (
-                                <Text style={[styles.fact, {textAlign: 'center'}]}>You haven't saved anything yet</Text>
-                            )
-                        }
-                        <View style={{height: 350}} />
-                    </ScrollView>
-                </View>
+                                                                >
+                                                                    <Marker
+                                                                        coordinate={{
+                                                                            latitude: item.coordinates.lat,
+                                                                            longitude: item.coordinates.lon,
+                                                                        }}
+                                                                        title={item.name}
+                                                                    />
+                                                                </MapView>
+                                                            )
+                                                        }
+                                                </View>        
+                                            ))
+                                        }
+                                    </>
+                                ) : (
+                                    <Text style={[styles.fact, {textAlign: 'center'}]}>You haven't saved anything yet</Text>
+                                )
+                            }
+                            <View style={{height: 350}} />
+                        </ScrollView>
+                    </View>
 
-            </View>
+                </View>
+            </ImageBackground>
         </GestureHandlerRootView>
     )
 };
@@ -235,7 +237,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#000'
     },
 
     menuContainer: {

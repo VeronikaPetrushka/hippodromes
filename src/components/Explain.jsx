@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ImageBackground } from "react-native"
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
 import explain from "../constants/explain";
@@ -21,28 +21,30 @@ const Explain = () => {
     const currentItem = explain[index];
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/back.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            <View style={styles.imageContainer}>
-                <Image source={currentItem.image} style={styles.image} />
-                <LinearGradient
-                    colors={['transparent', '#000']}
-                    style={styles.overlay}
-                />
+                <View style={styles.imageContainer}>
+                    <Image source={currentItem.image} style={styles.image} />
+                    <LinearGradient
+                        colors={['transparent', '#000']}
+                        style={styles.overlay}
+                    />
+                </View>
+
+                <View style={{width: '100%', paddingHorizontal: 31, flexGrow: 1}}>
+
+                    <Text style={styles.title}>{currentItem.title}</Text>
+                    <Text style={styles.text}>{currentItem.text}</Text>
+
+                    <TouchableOpacity style={styles.btn} onPress={handleNext}>
+                        <Text style={styles.btnText}>{index === 0 ? 'Get started' : index === 6 ? 'Start Exploring' : 'Next'}</Text>
+                    </TouchableOpacity>
+
+                </View>
+
             </View>
-
-            <View style={{width: '100%', paddingHorizontal: 31, flexGrow: 1}}>
-
-                <Text style={styles.title}>{currentItem.title}</Text>
-                <Text style={styles.text}>{currentItem.text}</Text>
-
-                <TouchableOpacity style={styles.btn} onPress={handleNext}>
-                    <Text style={styles.btnText}>{index === 0 ? 'Get started' : index === 6 ? 'Start Exploring' : 'Next'}</Text>
-                </TouchableOpacity>
-
-            </View>
-
-        </View>
+        </ImageBackground>
     )
 };
 
@@ -50,7 +52,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#000'
     },
 
     imageContainer: {

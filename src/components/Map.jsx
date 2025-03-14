@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Share, Animated } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Share, Animated, ImageBackground } from "react-native"
 import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -71,72 +71,74 @@ const Map = () => {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <View style={styles.container}>
+            <ImageBackground source={require('../assets/back.png')} style={{flex: 1}}>
+                <View style={styles.container}>
 
-                {isMenuOpen && (
-                    <Animated.View style={[styles.menuContainer, animatedMenuStyle]}>
-                        <BurgerMenu onClose={toggleMenu} />
-                    </Animated.View>
-                )}
-
-                <View style={styles.row}>
-                    <TouchableOpacity style={styles.upperBtn} onPress={toggleMenu}>
-                        <Icons type={'menu'} />
-                    </TouchableOpacity>
-                    <Image source={require('../assets/logo.png')} style={styles.logo} />
-                    <TouchableOpacity style={styles.upperBtn} onPress={() => navigation.navigate('SurpriseScreen')}>
-                        <Icons type={'surprise'} />
-                    </TouchableOpacity>
-                </View>
-
-                <MapView
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: 52.2371,
-                        longitude: -0.3725,
-                        latitudeDelta: 3,
-                        longitudeDelta: 3,
-                    }}
-                >
-                    {seasons.map(season =>
-                        season.items.map(item => (
-                            <Marker
-                                key={item.name}
-                                coordinate={{
-                                    latitude: item.coordinates.lat,
-                                    longitude: item.coordinates.lon,
-                                }}
-                                onPress={() => setSelectedItem(item)}
-                            />
-                        ))
+                    {isMenuOpen && (
+                        <Animated.View style={[styles.menuContainer, animatedMenuStyle]}>
+                            <BurgerMenu onClose={toggleMenu} />
+                        </Animated.View>
                     )}
-                </MapView>
 
-                {selectedItem && (
-                    <View style={[styles.card, {bottom: height > 700 ? height * 0.15 : height * 0.07}]}>
-                        <Image source={selectedItem.image} style={styles.cardImg} />
-                        <View style={{width: '100%', padding: 21, backgroundColor: '#171717'}}>
-                            <Text style={styles.cardName}>{selectedItem.name}</Text>
-                            <Text style={styles.fact}>{selectedItem.description}</Text>
-                            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                                <TouchableOpacity style={[styles.factBtn, {width: 180, padding: 8}]} onPress={() => setSelectedItem(null)}>
-                                    <Text style={styles.cardBtnText}>Close</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity 
-                                    style={[styles.cardBtn, savedItems.includes(selectedItem) && {backgroundColor: '#313131'}]} 
-                                    onPress={() => handleSaveResult(selectedItem)}
-                                    >
-                                    <Icons type={'save'} saved={savedItems.includes(selectedItem)} />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.cardBtn} onPress={() => handleShareItem(selectedItem)}>
-                                    <Icons type={'share'} />
-                                </TouchableOpacity>
+                    <View style={styles.row}>
+                        <TouchableOpacity style={styles.upperBtn} onPress={toggleMenu}>
+                            <Icons type={'menu'} />
+                        </TouchableOpacity>
+                        <Image source={require('../assets/logo.png')} style={styles.logo} />
+                        <TouchableOpacity style={styles.upperBtn} onPress={() => navigation.navigate('SurpriseScreen')}>
+                            <Icons type={'surprise'} />
+                        </TouchableOpacity>
+                    </View>
+
+                    <MapView
+                        style={styles.map}
+                        initialRegion={{
+                            latitude: 52.2371,
+                            longitude: -0.3725,
+                            latitudeDelta: 3,
+                            longitudeDelta: 3,
+                        }}
+                    >
+                        {seasons.map(season =>
+                            season.items.map(item => (
+                                <Marker
+                                    key={item.name}
+                                    coordinate={{
+                                        latitude: item.coordinates.lat,
+                                        longitude: item.coordinates.lon,
+                                    }}
+                                    onPress={() => setSelectedItem(item)}
+                                />
+                            ))
+                        )}
+                    </MapView>
+
+                    {selectedItem && (
+                        <View style={[styles.card, {bottom: height > 700 ? height * 0.15 : height * 0.07}]}>
+                            <Image source={selectedItem.image} style={styles.cardImg} />
+                            <View style={{width: '100%', padding: 21, backgroundColor: '#171717'}}>
+                                <Text style={styles.cardName}>{selectedItem.name}</Text>
+                                <Text style={styles.fact}>{selectedItem.description}</Text>
+                                <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                                    <TouchableOpacity style={[styles.factBtn, {width: 180, padding: 8}]} onPress={() => setSelectedItem(null)}>
+                                        <Text style={styles.cardBtnText}>Close</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity 
+                                        style={[styles.cardBtn, savedItems.includes(selectedItem) && {backgroundColor: '#313131'}]} 
+                                        onPress={() => handleSaveResult(selectedItem)}
+                                        >
+                                        <Icons type={'save'} saved={savedItems.includes(selectedItem)} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.cardBtn} onPress={() => handleShareItem(selectedItem)}>
+                                        <Icons type={'share'} />
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
-                    </View>
-                )}
+                    )}
 
-            </View>
+                </View>
+            </ImageBackground>
         </GestureHandlerRootView>
     )
 };
@@ -146,7 +148,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#000'
     },
 
     menuContainer: {

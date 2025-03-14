@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Share, ScrollView, Animated } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Share, ScrollView, Animated, ImageBackground } from "react-native"
 import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useNavigation } from "@react-navigation/native";
@@ -51,62 +51,64 @@ const Blog = () => {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <View style={styles.container}>
+            <ImageBackground source={require('../assets/back.png')} style={{flex: 1}}>
+                <View style={styles.container}>
 
-                {isMenuOpen && (
-                    <Animated.View style={[styles.menuContainer, animatedMenuStyle]}>
-                        <BurgerMenu onClose={toggleMenu} />
-                    </Animated.View>
-                )}
+                    {isMenuOpen && (
+                        <Animated.View style={[styles.menuContainer, animatedMenuStyle]}>
+                            <BurgerMenu onClose={toggleMenu} />
+                        </Animated.View>
+                    )}
 
-                <View style={styles.row}>
-                    <TouchableOpacity style={styles.upperBtn} onPress={toggleMenu}>
-                        <Icons type={'menu'} />
-                    </TouchableOpacity>
-                    <Image source={require('../assets/logo.png')} style={styles.logo} />
-                    <TouchableOpacity style={styles.upperBtn} onPress={() => navigation.navigate('SurpriseScreen')}>
-                        <Icons type={'surprise'} />
-                    </TouchableOpacity>
-                </View>
+                    <View style={styles.row}>
+                        <TouchableOpacity style={styles.upperBtn} onPress={toggleMenu}>
+                            <Icons type={'menu'} />
+                        </TouchableOpacity>
+                        <Image source={require('../assets/logo.png')} style={styles.logo} />
+                        <TouchableOpacity style={styles.upperBtn} onPress={() => navigation.navigate('SurpriseScreen')}>
+                            <Icons type={'surprise'} />
+                        </TouchableOpacity>
+                    </View>
 
-                <View style={{width: '100%', paddingHorizontal: 34}}>
-                    <Text style={styles.title}>Interesting Facts:</Text>
-                    <ScrollView style={{width: '100%'}}>
-                        {
-                            blog.map((item, index) => (
-                                <View key={index} style={styles.postContainer}>
-                                    <Text style={styles.title}>{item.post}</Text>
-                                    {
-                                        read === item && (
-                                            <>
-                                                <Text style={styles.desc}>{item.description}</Text>
-                                                {
-                                                    item.points.map((point, index) => (
-                                                        <Text key={index} style={styles.desc}>{point}</Text>
-                                                    ))
-                                                }
-                                                <Text style={styles.desc}>{item.conclusion}</Text>
-                                            </>
-                                        )
-                                    }
-                                    <View  style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                                        <TouchableOpacity style={styles.postBtn} onPress={() => toggleRead(item)}>
-                                            <Text style={styles.btnText}>{read === item ? 'Close' : 'Read'}</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity style={styles.postBtn} onPress={() => handleShare(item)}>
-                                            <View style={{width: 20, height: 20}}>
-                                                <Icons type={'share'} />
-                                            </View>
-                                        </TouchableOpacity>
+                    <View style={{width: '100%', paddingHorizontal: 34}}>
+                        <Text style={styles.title}>Interesting Facts:</Text>
+                        <ScrollView style={{width: '100%'}}>
+                            {
+                                blog.map((item, index) => (
+                                    <View key={index} style={styles.postContainer}>
+                                        <Text style={styles.title}>{item.post}</Text>
+                                        {
+                                            read === item && (
+                                                <>
+                                                    <Text style={styles.desc}>{item.description}</Text>
+                                                    {
+                                                        item.points.map((point, index) => (
+                                                            <Text key={index} style={styles.desc}>{point}</Text>
+                                                        ))
+                                                    }
+                                                    <Text style={styles.desc}>{item.conclusion}</Text>
+                                                </>
+                                            )
+                                        }
+                                        <View  style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                                            <TouchableOpacity style={styles.postBtn} onPress={() => toggleRead(item)}>
+                                                <Text style={styles.btnText}>{read === item ? 'Close' : 'Read'}</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={styles.postBtn} onPress={() => handleShare(item)}>
+                                                <View style={{width: 20, height: 20}}>
+                                                    <Icons type={'share'} />
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
-                                </View>
-                            ))
-                        }
-                        <View style={{height: 300}} />
-                    </ScrollView>
-                </View>
+                                ))
+                            }
+                            <View style={{height: 300}} />
+                        </ScrollView>
+                    </View>
 
-            </View>
+                </View>
+            </ImageBackground>
         </GestureHandlerRootView>
     )
 };
@@ -116,7 +118,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#000'
     },
 
     menuContainer: {

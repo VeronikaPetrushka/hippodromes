@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Share, ScrollView, Animated } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Share, ScrollView, Animated, ImageBackground } from "react-native"
 import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -69,57 +69,59 @@ const Facts = () => {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <View style={styles.container}>
+            <ImageBackground source={require('../assets/back.png')} style={{flex: 1}}>
+                <View style={styles.container}>
 
-                {isMenuOpen && (
-                    <Animated.View style={[styles.menuContainer, animatedMenuStyle]}>
-                        <BurgerMenu onClose={toggleMenu} />
-                    </Animated.View>
-                )}
+                    {isMenuOpen && (
+                        <Animated.View style={[styles.menuContainer, animatedMenuStyle]}>
+                            <BurgerMenu onClose={toggleMenu} />
+                        </Animated.View>
+                    )}
 
-                <View style={styles.row}>
-                    <TouchableOpacity style={styles.upperBtn} onPress={toggleMenu}>
-                        <Icons type={'menu'} />
-                    </TouchableOpacity>
-                    <Image source={require('../assets/logo.png')} style={styles.logo} />
-                    <TouchableOpacity style={styles.upperBtn} onPress={() => navigation.navigate('SurpriseScreen')}>
-                        <Icons type={'surprise'} />
-                    </TouchableOpacity>
-                </View>
+                    <View style={styles.row}>
+                        <TouchableOpacity style={styles.upperBtn} onPress={toggleMenu}>
+                            <Icons type={'menu'} />
+                        </TouchableOpacity>
+                        <Image source={require('../assets/logo.png')} style={styles.logo} />
+                        <TouchableOpacity style={styles.upperBtn} onPress={() => navigation.navigate('SurpriseScreen')}>
+                            <Icons type={'surprise'} />
+                        </TouchableOpacity>
+                    </View>
 
-                <View style={{width: '100%', paddingHorizontal: 34}}>
-                    <Text style={styles.title}>Interesting Facts:</Text>
-                    <ScrollView style={{width: '100%'}}>
-                        {
-                            dailyFacts.map((fact, index) => (
-                                <View key={index} style={styles.factContainer}>
-                                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', marginBottom: 14}}>
-                                        <View style={{width: 20, height: 20, marginRight: 15}}>
-                                            <Icons type={'tick'} />
+                    <View style={{width: '100%', paddingHorizontal: 34}}>
+                        <Text style={styles.title}>Interesting Facts:</Text>
+                        <ScrollView style={{width: '100%'}}>
+                            {
+                                dailyFacts.map((fact, index) => (
+                                    <View key={index} style={styles.factContainer}>
+                                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', marginBottom: 14}}>
+                                            <View style={{width: 20, height: 20, marginRight: 15}}>
+                                                <Icons type={'tick'} />
+                                            </View>
+                                            <Text style={[styles.title, {marginBottom: 0}]}>Ascot Racecourse</Text>
                                         </View>
-                                        <Text style={[styles.title, {marginBottom: 0}]}>Ascot Racecourse</Text>
+                                        <Text style={styles.fact}>{fact}</Text>
+                                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                                            <TouchableOpacity style={[styles.factBtn, savedFacts.includes(fact) && {backgroundColor: '#313131'}]} onPress={() => handleSave(fact)}>
+                                                <View style={{width: 20, height: 20}}>
+                                                    <Icons type={'save'} saved={savedFacts.includes(fact)} />
+                                                </View>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={styles.factBtn} onPress={() => handleShare(fact)}>
+                                                <View style={{width: 20, height: 20}}>
+                                                    <Icons type={'share'} />
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
-                                    <Text style={styles.fact}>{fact}</Text>
-                                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                                        <TouchableOpacity style={[styles.factBtn, savedFacts.includes(fact) && {backgroundColor: '#313131'}]} onPress={() => handleSave(fact)}>
-                                            <View style={{width: 20, height: 20}}>
-                                                <Icons type={'save'} saved={savedFacts.includes(fact)} />
-                                            </View>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity style={styles.factBtn} onPress={() => handleShare(fact)}>
-                                            <View style={{width: 20, height: 20}}>
-                                                <Icons type={'share'} />
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            ))
-                        }
-                        <View style={{height: 300}} />
-                    </ScrollView>
-                </View>
+                                ))
+                            }
+                            <View style={{height: 300}} />
+                        </ScrollView>
+                    </View>
 
-            </View>
+                </View>
+            </ImageBackground>
         </GestureHandlerRootView>
     )
 };
@@ -129,7 +131,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#000'
     },
 
     menuContainer: {

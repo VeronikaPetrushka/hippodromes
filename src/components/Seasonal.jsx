@@ -168,155 +168,157 @@ const Seasonal = () => {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <View style={styles.container}>
+            <ImageBackground source={require('../assets/back.png')} style={{flex: 1}}>
+                <View style={styles.container}>
 
-                {isMenuOpen && (
-                    <Animated.View style={[styles.menuContainer, animatedMenuStyle]}>
-                        <BurgerMenu onClose={toggleMenu} />
-                    </Animated.View>
-                )}
+                    {isMenuOpen && (
+                        <Animated.View style={[styles.menuContainer, animatedMenuStyle]}>
+                            <BurgerMenu onClose={toggleMenu} />
+                        </Animated.View>
+                    )}
 
-                <View style={styles.row}>
-                    <TouchableOpacity style={styles.upperBtn} onPress={toggleMenu}>
-                        <Icons type={'menu'} />
-                    </TouchableOpacity>
-                    <Image source={require('../assets/logo.png')} style={styles.logo} />
-                    <TouchableOpacity style={styles.upperBtn} onPress={() => navigation.navigate('SurpriseScreen')}>
-                        <Icons type={'surprise'} />
-                    </TouchableOpacity>
-                </View>
+                    <View style={styles.row}>
+                        <TouchableOpacity style={styles.upperBtn} onPress={toggleMenu}>
+                            <Icons type={'menu'} />
+                        </TouchableOpacity>
+                        <Image source={require('../assets/logo.png')} style={styles.logo} />
+                        <TouchableOpacity style={styles.upperBtn} onPress={() => navigation.navigate('SurpriseScreen')}>
+                            <Icons type={'surprise'} />
+                        </TouchableOpacity>
+                    </View>
 
-                {
-                    selected ? (
-                        <View style={{width: '100%', backgroundColor: '#000', flexGrow: 1, paddingHorizontal: 34}}>
-                            {visible ? (
-                                <Animated.View style={{ opacity: fadeAnim, width: '100%', flexGrow: 1, alignItems: 'center' }}>
-                                    <View style={styles.seasonBtn}>
-                                        <ImageBackground source={selected.image} style={{width: '100%', height: '100%', justifyContent: 'flex-end', alignItems: 'center'}}>
-                                            <Text style={styles.btnText}>{selected.season}</Text>
-                                            <LinearGradient
-                                                colors={['transparent', '#000']}
-                                                style={styles.overlay}
-                                            />
-                                        </ImageBackground>
-                                    </View>
-                                    <Text style={[styles.title, {marginVertical: 34}]}>Searching hippodrome for you...</Text>
-                                    <Text style={[styles.fact, {marginVertical: 34}]}>please wait...</Text>
-                                </Animated.View>
-                                ) : (
-                                    <View style={{width: '100%'}}>
-                                        <Text style={styles.title}>Search Result:</Text>
-                                        <ScrollView style={{width: '100%'}}>
-                                            {
-                                                selected.items.map((item, index) => (
-                                                    <View key={index} style={styles.card}>
-                                                        <Image source={item.image} style={styles.cardImg} />
-                                                        <View style={{width: '100%', padding: 21, backgroundColor: '#171717'}}>
-                                                            <Text style={styles.cardName}>{item.name}</Text>
-                                                            <Text style={styles.fact}>{item.description}</Text>
-                                                            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                                                                <TouchableOpacity style={[styles.factBtn, {width: 180, padding: 8}]} onPress={() => toggleMap(item)}>
-                                                                    <Text style={styles.cardBtnText}>{mapVisible && item === selectedMap ? 'Close' : 'Open'}</Text>
-                                                                </TouchableOpacity>
-                                                                <TouchableOpacity 
-                                                                    style={[styles.cardBtn, savedItems.includes(item) && {backgroundColor: '#313131'}]} 
-                                                                    onPress={() => handleSaveResult(item)}
-                                                                    >
-                                                                    <Icons type={'save'} saved={savedItems.includes(item)} />
-                                                                </TouchableOpacity>
-                                                                <TouchableOpacity style={styles.cardBtn} onPress={() => handleShareItem(item)}>
-                                                                    <Icons type={'share'} />
-                                                                </TouchableOpacity>
+                    {
+                        selected ? (
+                            <View style={{width: '100%', flexGrow: 1, paddingHorizontal: 34}}>
+                                {visible ? (
+                                    <Animated.View style={{ opacity: fadeAnim, width: '100%', flexGrow: 1, alignItems: 'center' }}>
+                                        <View style={styles.seasonBtn}>
+                                            <ImageBackground source={selected.image} style={{width: '100%', height: '100%', justifyContent: 'flex-end', alignItems: 'center'}}>
+                                                <Text style={styles.btnText}>{selected.season}</Text>
+                                                <LinearGradient
+                                                    colors={['transparent', '#000']}
+                                                    style={styles.overlay}
+                                                />
+                                            </ImageBackground>
+                                        </View>
+                                        <Text style={[styles.title, {marginVertical: 34}]}>Searching hippodrome for you...</Text>
+                                        <Text style={[styles.fact, {marginVertical: 34}]}>please wait...</Text>
+                                    </Animated.View>
+                                    ) : (
+                                        <View style={{width: '100%'}}>
+                                            <Text style={styles.title}>Search Result:</Text>
+                                            <ScrollView style={{width: '100%'}}>
+                                                {
+                                                    selected.items.map((item, index) => (
+                                                        <View key={index} style={styles.card}>
+                                                            <Image source={item.image} style={styles.cardImg} />
+                                                            <View style={{width: '100%', padding: 21, backgroundColor: '#171717'}}>
+                                                                <Text style={styles.cardName}>{item.name}</Text>
+                                                                <Text style={styles.fact}>{item.description}</Text>
+                                                                <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                                                                    <TouchableOpacity style={[styles.factBtn, {width: 180, padding: 8}]} onPress={() => toggleMap(item)}>
+                                                                        <Text style={styles.cardBtnText}>{mapVisible && item === selectedMap ? 'Close' : 'Open'}</Text>
+                                                                    </TouchableOpacity>
+                                                                    <TouchableOpacity 
+                                                                        style={[styles.cardBtn, savedItems.includes(item) && {backgroundColor: '#313131'}]} 
+                                                                        onPress={() => handleSaveResult(item)}
+                                                                        >
+                                                                        <Icons type={'save'} saved={savedItems.includes(item)} />
+                                                                    </TouchableOpacity>
+                                                                    <TouchableOpacity style={styles.cardBtn} onPress={() => handleShareItem(item)}>
+                                                                        <Icons type={'share'} />
+                                                                    </TouchableOpacity>
+                                                                </View>
                                                             </View>
-                                                        </View>
-                                                            {
-                                                                mapVisible && item === selectedMap && (
-                                                                    <MapView
-                                                                        style={{ width: '100%', height: 188, borderTopColor: '#dabc67', borderTopWidth: 1 }}
-                                                                        initialRegion={{
-                                                                            latitude: item.coordinates.lat,
-                                                                            longitude: item.coordinates.lon,
-                                                                            latitudeDelta: 0.5,
-                                                                            longitudeDelta: 0.5,
-                                                                        }}
-                                                                    >
-                                                                        <Marker
-                                                                            coordinate={{
+                                                                {
+                                                                    mapVisible && item === selectedMap && (
+                                                                        <MapView
+                                                                            style={{ width: '100%', height: 188, borderTopColor: '#dabc67', borderTopWidth: 1 }}
+                                                                            initialRegion={{
                                                                                 latitude: item.coordinates.lat,
                                                                                 longitude: item.coordinates.lon,
+                                                                                latitudeDelta: 0.5,
+                                                                                longitudeDelta: 0.5,
                                                                             }}
-                                                                            title={item.name}
-                                                                        />
-                                                                    </MapView>
-                                                                )
-                                                            }
-                                                    </View>
-                                                ))
-                                            }
-                                            <TouchableOpacity style={[styles.factBtn, {width: '100%', padding: 15}]} onPress={() => setSelected(false)}>
-                                                <Text style={[styles.cardBtnText, {fontSize: 16}]}>Search Again</Text>
-                                            </TouchableOpacity>
-                                            <View style={{height: 350}} />
-                                        </ScrollView>
-                                    </View>
-                                )}
-                        </View>
-                    ) : (
-                        <View style={{width: '100%', backgroundColor: '#000', flexGrow: 1, paddingHorizontal: 34}}>
-                            <ScrollView style={{width: '100%'}}>
-                                <Text style={styles.title}>Seasonal Hippodrome Finder:</Text>
-                                <View style={styles.seasonsContainer}>
-                                    {
-                                        seasons.map((item, index) => (
-                                            <TouchableOpacity 
-                                                key={index} 
-                                                style={styles.seasonBtn}
-                                                onPress={() => {
-                                                    setSelected(item);
-                                                    setVisible(true);
-                                                }}
-                                                >
-                                                <ImageBackground source={item.image} style={{width: '100%', height: '100%', justifyContent: 'flex-end', alignItems: 'center'}}>
-                                                    <Text style={styles.btnText}>{item.season}</Text>
-                                                    <LinearGradient
-                                                        colors={['transparent', '#000']}
-                                                        style={styles.overlay}
-                                                    />
-                                                </ImageBackground>
-                                            </TouchableOpacity>
-                                        ))
-                                    }
-                                </View>
-                
-                                <Text style={styles.title}>Daily Fact:</Text>
-                                <View style={styles.factContainer}>
-                                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', marginBottom: 14}}>
-                                        <View style={{width: 20, height: 20, marginRight: 15}}>
-                                            <Icons type={'tick'} />
+                                                                        >
+                                                                            <Marker
+                                                                                coordinate={{
+                                                                                    latitude: item.coordinates.lat,
+                                                                                    longitude: item.coordinates.lon,
+                                                                                }}
+                                                                                title={item.name}
+                                                                            />
+                                                                        </MapView>
+                                                                    )
+                                                                }
+                                                        </View>
+                                                    ))
+                                                }
+                                                <TouchableOpacity style={[styles.factBtn, {width: '100%', padding: 15}]} onPress={() => setSelected(false)}>
+                                                    <Text style={[styles.cardBtnText, {fontSize: 16}]}>Search Again</Text>
+                                                </TouchableOpacity>
+                                                <View style={{height: 350}} />
+                                            </ScrollView>
                                         </View>
-                                        <Text style={[styles.title, {marginBottom: 0}]}>Ascot Racecourse</Text>
+                                    )}
+                            </View>
+                        ) : (
+                            <View style={{width: '100%', flexGrow: 1, paddingHorizontal: 34}}>
+                                <ScrollView style={{width: '100%'}}>
+                                    <Text style={styles.title}>Seasonal Hippodrome Finder:</Text>
+                                    <View style={styles.seasonsContainer}>
+                                        {
+                                            seasons.map((item, index) => (
+                                                <TouchableOpacity 
+                                                    key={index} 
+                                                    style={styles.seasonBtn}
+                                                    onPress={() => {
+                                                        setSelected(item);
+                                                        setVisible(true);
+                                                    }}
+                                                    >
+                                                    <ImageBackground source={item.image} style={{width: '100%', height: '100%', justifyContent: 'flex-end', alignItems: 'center'}}>
+                                                        <Text style={styles.btnText}>{item.season}</Text>
+                                                        <LinearGradient
+                                                            colors={['transparent', '#000']}
+                                                            style={styles.overlay}
+                                                        />
+                                                    </ImageBackground>
+                                                </TouchableOpacity>
+                                            ))
+                                        }
                                     </View>
-                                    <Text style={styles.fact}>{currentFact}</Text>
-                                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                                        <TouchableOpacity style={[styles.factBtn, isSaved && {backgroundColor: '#313131'}]} onPress={() => handleSave(currentFact)}>
-                                            <View style={{width: 20, height: 20}}>
-                                                <Icons type={'save'} saved={isSaved} />
+                    
+                                    <Text style={styles.title}>Daily Fact:</Text>
+                                    <View style={styles.factContainer}>
+                                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', marginBottom: 14}}>
+                                            <View style={{width: 20, height: 20, marginRight: 15}}>
+                                                <Icons type={'tick'} />
                                             </View>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity style={styles.factBtn} onPress={() => handleShare(currentFact)}>
-                                            <View style={{width: 20, height: 20}}>
-                                                <Icons type={'share'} />
-                                            </View>
-                                        </TouchableOpacity>
+                                            <Text style={[styles.title, {marginBottom: 0}]}>Ascot Racecourse</Text>
+                                        </View>
+                                        <Text style={styles.fact}>{currentFact}</Text>
+                                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                                            <TouchableOpacity style={[styles.factBtn, isSaved && {backgroundColor: '#313131'}]} onPress={() => handleSave(currentFact)}>
+                                                <View style={{width: 20, height: 20}}>
+                                                    <Icons type={'save'} saved={isSaved} />
+                                                </View>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={styles.factBtn} onPress={() => handleShare(currentFact)}>
+                                                <View style={{width: 20, height: 20}}>
+                                                    <Icons type={'share'} />
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
-                                </View>
-                                <View style={{height: 300}} />
-                            </ScrollView>        
-                        </View>    
-                    )
-                }
+                                    <View style={{height: 300}} />
+                                </ScrollView>        
+                            </View>    
+                        )
+                    }
 
-            </View>
+                </View>
+            </ImageBackground>
         </GestureHandlerRootView>
     )
 };
@@ -326,7 +328,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#000'
     },
 
     menuContainer: {
